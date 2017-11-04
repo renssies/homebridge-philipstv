@@ -22,6 +22,8 @@ function HttpStatusAccessory(log, config) {
 	this.wol_url = config["wol_url"] || "";
 	this.model_year_nr = parseInt(this.model_year);
 	this.set_attempt = 0;
+	
+	this.ambilight_switch = config["ambilight_switch"] || true
 
 	// CREDENTIALS FOR API
 	this.username = config["username"] || "";
@@ -499,14 +501,20 @@ HttpStatusAccessory.prototype = {
 			.getCharacteristic(Characteristic.On)
 			.on('get', this.getPowerState.bind(this))
 			.on('set', this.setPowerState.bind(this));
+			
+		var services = [informationService, this.switchService];
 
-		// AMBILIGHT
-		this.ambilightService = new Service.Lightbulb(this.name + " Ambilight");
-		this.ambilightService
-			.getCharacteristic(Characteristic.On)
-			.on('get', this.getAmbilightState.bind(this))
-			.on('set', this.setAmbilightState.bind(this));
+		if (this.ambilight_switch) {
+			// AMBILIGHT
+			this.ambilightService = new Service.Lightbulb(this.name + " Ambilight");
+			this.ambilightService
+				.getCharacteristic(Characteristic.On)
+				.on('get', this.getAmbilightState.bind(this))
+				.on('set', this.setAmbilightState.bind(this));
+			services.push(this.ambilightService);
+			
+		}
 
-		return [informationService, this.switchService, this.ambilightService];
+		return services;
 	}
 };
