@@ -1,6 +1,6 @@
 {
   "name": "homebridge-philipstv",
-  "version": "0.3.81",
+  "version": "0.3.82",
   "description": "Homebridge module for the Philips TV (with JointSpace enabled)",
   "main": "index.js",
   "scripts": {
