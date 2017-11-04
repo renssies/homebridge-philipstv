@@ -22,7 +22,12 @@ function HttpStatusAccessory(log, config) {
 	this.wol_url = config["wol_url"] || "";
 	this.model_year_nr = parseInt(this.model_year);
 	this.set_attempt = 0;
-	this.ambilight_switch = config["ambilight_switch"] || true;
+	if (config.hasOwnProperty("ambilight_switch")) {
+		this.ambilight_switch = config["ambilight_switch"];
+	} else {
+		this.ambilight_switch = true;
+	}
+	
 
 	// CREDENTIALS FOR API
 	this.username = config["username"] || "";
